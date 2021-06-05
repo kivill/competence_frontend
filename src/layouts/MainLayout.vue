@@ -2,41 +2,33 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar class="text-black">
-        <q-toolbar-title> Datakrat </q-toolbar-title>
-        <span v-if="isLoggedIn">
-          Добро пожаловать, {{ userInfo?.position }} {{ userInfo?.full_name }}
-        </span>
+        <q-toolbar-title>Datakrat</q-toolbar-title>
+        <span v-if="isLoggedIn">Добро пожаловать, {{ userInfo?.role }} {{ userInfo?.full_name }}</span>
         <q-space />
         <span v-if="isLoggedIn">
-          <q-btn
-            v-if="hasPermisson(['директор', 'диспетчер'])"
-            stretch
-            flat
-            to="/tickets"
-            >Заявки</q-btn
-          >
+          <q-btn v-if="hasPermisson(['директор', 'диспетчер'])" stretch flat to="/tickets">Заявки</q-btn>
           <q-btn stretch flat to="/orders">Наряды</q-btn>
           <q-btn-dropdown stretch flat label="Клиенты" icon="business">
             <q-list style="min-width: 100px">
               <!-- <q-item clickable to="/clients">
                 <q-item-section>Список клиентов</q-item-section>
-              </q-item> -->
+              </q-item>-->
               <q-item clickable to="/facilities">
                 <q-item-section>Список объектов</q-item-section>
               </q-item>
             </q-list>
           </q-btn-dropdown>
-          <q-btn-dropdown stretch flat label="Компания" icon="flag">
+          <q-btn-dropdown stretch flat label="Информация о школе" icon="flag">
             <q-list style="min-width: 100px">
-              <!-- <q-item clickable to="/users">
+              <q-item clickable to="/users" v-if="hasPermisson(['директор', 'диспетчер'])">
                 <q-item-section>Сотрудники</q-item-section>
-              </q-item> -->
-              <q-item clickable to="/company">
-                <q-item-section>Информация о компании</q-item-section>
+              </q-item>
+              <q-item clickable to="/school">
+                <q-item-section>Информация о школе</q-item-section>
               </q-item>
             </q-list>
           </q-btn-dropdown>
-          <q-btn stretch flat @click="logout" to="/login"> Выход </q-btn>
+          <q-btn stretch flat @click="logout" to="/login">Выход</q-btn>
         </span>
       </q-toolbar>
     </q-header>

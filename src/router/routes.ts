@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '',
         name: 'home',
-        redirect: '/company'
+        redirect: '/school'
       },
       {
         path: '/login',
@@ -21,9 +21,9 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Users.vue')
       },
       {
-        path: '/company',
-        name: 'company',
-        component: () => import('pages/Company.vue')
+        path: '/school',
+        name: 'school',
+        component: () => import('src/pages/School.vue')
       },
       {
         path: '/clients',

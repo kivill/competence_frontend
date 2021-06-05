@@ -1,42 +1,34 @@
 import { reactive, toRefs } from 'vue'
 import { api } from 'boot/axios'
 
-interface Company {
+interface School {
     id: number,
     name: string,
-    legal_address: string,
-    actual_address: string,
-    phone: string,
-    email: string,
-    representative_name: string,
+    address: string,
 }
 
-interface CompanyState {
+interface SchoolState {
     isLoading: boolean;
     isCurrentLoading: boolean;
-    company: Company;
+    school: School;
 }
 
-const state = reactive<CompanyState>({
+const state = reactive<SchoolState>({
     isLoading: false,
     isCurrentLoading: false,
-    company: {
+    school: {
         id: 1,
         name: '',
-        legal_address: '',
-        actual_address: '',
-        phone: '',
-        email: '',
-        representative_name: '',
+        address: '',
     },
 })
 
-export const useCompany = () => {
-    const getCompany = (): void => {
+export const useSchool = () => {
+    const getSchool = (): void => {
         state.isLoading = true;
-        api.get('/company/get')
+        api.get('/school/get')
             .then((data) => {
-                state.company = data.data as Company
+                state.school = data.data as School
             })
             .catch((error) => {
                 console.log(error)
@@ -45,11 +37,11 @@ export const useCompany = () => {
                 state.isLoading = false;
             })
     }
-    const updateCompany = (): void => {
+    const updateSchool = (): void => {
         state.isLoading = true;
-        api.post('/company/update', { ...state.company })
+        api.post('/school/update', { ...state.school })
             .then((data) => {
-                state.company = data.data as Company
+                state.school = data.data as School
             })
             .catch((error) => {
                 console.log(error)
@@ -59,8 +51,8 @@ export const useCompany = () => {
             })
     }
     return {
-        getCompany,
-        updateCompany,
+        getSchool,
+        updateSchool,
         ...toRefs(state),
     }
 }

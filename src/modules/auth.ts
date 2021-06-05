@@ -6,7 +6,7 @@ interface User {
   email: string;
   token: string;
   full_name: string;
-  position: string;
+  role: string;
 }
 
 interface AuthState {
@@ -26,7 +26,7 @@ const state = reactive<AuthState>({
 
 const userInfo = computed<User | undefined>(() => state?.user)
 
-const userRoles = computed<string | undefined>(() => state?.user?.position)
+const userRoles = computed<string | undefined>(() => state?.user?.role)
 
 const isLoggedIn = computed<boolean>(() => !!state?.user || !!localStorage.getItem('token'))
 
@@ -79,14 +79,14 @@ export const useAuth = () => {
   }
 
   const hasPermisson = (role: string[]): boolean => {
-    if (!!state?.user?.position) {
-      return role.includes(state?.user?.position)
+    if (!!state?.user?.role) {
+      return role.includes(state?.user?.role)
     }
     return false
   }
 
   const visibleColumnsUsers = (): string[] => {
-    const visibleColumns = ['id', 'full_name', 'position', 'email', 'phone']
+    const visibleColumns = ['id', 'full_name', 'role', 'email', 'phone']
     if (hasPermisson(['директор'])) {
       visibleColumns.push('salary')
     }
