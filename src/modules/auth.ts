@@ -93,7 +93,7 @@ export const useAuth = () => {
     return visibleColumns
   }
   const visibleColumnsFacilities = (): string[] => {
-    const visibleColumns = ['id', 'name', 'legal_address', 'actual_address', 'phone', 'email', 'representative_name', 'client']
+    const visibleColumns = ['id', 'name', 'description']
     if (hasPermisson(['директор'])) {
       visibleColumns.push('monthly_fee')
     }

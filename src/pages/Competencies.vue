@@ -2,23 +2,22 @@
   <q-page class="q-pa-md">
     <q-table
       :loading="isLoading"
-      title="Учителя"
-      :rows="users"
+      title="Компетенции"
+      :rows="facility"
       :columns="columns"
       row-key="_id"
       :pagination="initialPagination"
-      :visible-columns="visibleColumnsUsers()"
+      :visible-columns="visibleColumnsFacilities()"
       :grid="$q.screen.lt.md"
     >
       <template v-slot:top-right>
-        <!-- <q-btn
+        <q-btn
           v-if="hasPermisson(['директор'])"
           color="primary"
           label="Добавить"
           dense
           @click="add"
-        />-->
-        <q-btn color="primary" label="Добавить" dense to="/users/add" />
+        />
       </template>
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -49,34 +48,28 @@
           <div class="row">
             <div class="col">
               <q-input
-                v-model="currentUser.full_name"
-                label="ФИО"
-                :disable="currentUser?.id ? true : false"
-              />
-            </div>
-            <div class="col">
-              <q-input v-model="currentUser.password" label="Пароль" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <q-input
-                v-model="currentUser.email"
-                label="Email"
-                :disable="currentUser.id ? true : false"
+                v-model="currentCompitence.name"
+                label="Название компитенции"
+                :disable="currentCompitence.id ? true : false"
               />
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <q-select v-model="currentUser.role" :options="roleList" label="Должность" />
+              <q-input v-model="currentCompitence.description" label="Описание" />
             </div>
           </div>
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Отменить" color="red" @click="setCurrentUserEmpty" v-close-popup />
-          <q-btn flat label="Сохранить" color="green" @click="saveCurrentUser" v-close-popup />
+          <q-btn
+            flat
+            label="Отменить"
+            color="red"
+            @click="setCurrentCompitenceEmpty"
+            v-close-popup
+          />
+          <q-btn flat label="Сохранить" color="green" @click="saveCurrentCompitence" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -85,31 +78,29 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useUsers } from '../modules/users';
 import { useAuth } from '../modules/auth';
-import { useRouter } from 'vue-router';
-interface User {
-  id?: string;
-  full_name: string;
-  email: string;
-  role: string;
-  password?: string;
+import { useCompitencies } from '../modules/competencies';
+// import { useClients } from '../modules/clients';
+
+interface Facility {
+  id?: number;
+  name: string;
+  description: string;
 }
 export default defineComponent({
   setup() {
-    const router = useRouter();
     const {
-      getUsers,
-      users,
+      facility,
+      currentCompitence,
       isLoading,
       isCurrentLoading,
-      setCurrentUserEmpty,
-      setCurrentUser,
-      saveCurrentUser,
-      currentUser,
-    } = useUsers();
-    const { hasPermisson, visibleColumnsUsers } = useAuth();
-    const roleList = ['учитель', 'методист'];
+      getCompitencies,
+      setCurrentCompitence,
+      setCurrentCompitenceEmpty,
+      saveCurrentCompitence,
+    } = useCompitencies();
+    // const { getClients, clients } = useClients();
+    const { hasPermisson, visibleColumnsFacilities } = useAuth();
     const columns = [
       {
         name: 'id',
@@ -118,54 +109,48 @@ export default defineComponent({
         align: 'left',
       },
       {
-        name: 'full_name',
-        field: 'full_name',
-        label: 'ФИО',
+        name: 'name',
+        field: 'name',
+        label: 'Название',
         align: 'left',
       },
       {
-        name: 'role',
-        field: 'role',
-        label: 'Должность',
-        align: 'left',
-      },
-      {
-        name: 'email',
-        field: 'email',
-        label: 'email',
+        name: 'description',
+        field: 'description',
+        label: 'Описание',
         align: 'left',
       },
     ];
-    getUsers();
+    getCompitencies();
+    // getClients();
     let modal = ref(false);
     const add = () => {
-      setCurrentUserEmpty();
+      setCurrentCompitenceEmpty();
       modal.value = true;
     };
-    const edit = async (user: User) => {
-      // setCurrentUser(user);
-      // modal.value = true;
-      await router.push(`/users/edit/${user.id}`);
+    const edit = (client: Facility) => {
+      setCurrentCompitence(client);
+      modal.value = true;
     };
     return {
-      visibleColumnsUsers,
       columns,
-      roleList,
-      users,
+      facility,
       isLoading,
       modal,
       add,
       edit,
       isCurrentLoading,
-      currentUser,
-      saveCurrentUser,
-      setCurrentUserEmpty,
+      currentCompitence,
+      setCurrentCompitenceEmpty,
+      saveCurrentCompitence,
       hasPermisson,
+      visibleColumnsFacilities,
+      // clients,
       initialPagination: {
-        sortBy: 'desc',
+        sortBy: 'id',
         descending: false,
         page: 1,
-        rowsPerPage: 0,
+        rowsPerPage: 15,
       },
     };
   },

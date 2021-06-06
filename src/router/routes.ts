@@ -21,6 +21,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Users.vue')
       },
       {
+        path: '/users/edit/:id',
+        name: 'edit',
+        component: () => import('pages/User.vue')
+      },
+      {
+        path: '/users/add',
+        name: 'add',
+        component: () => import('pages/User.vue')
+      },
+      {
         path: '/school',
         name: 'school',
         component: () => import('src/pages/School.vue')
@@ -31,20 +41,20 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Clients.vue')
       },
       {
-        path: '/facilities',
-        name: 'facilities',
-        component: () => import('pages/Facilities.vue')
+        path: '/competencies',
+        name: 'competencies',
+        component: () => import('src/pages/Competencies.vue')
       },
-      {
-        path: '/tickets',
-        name: 'tickets',
-        component: () => import('pages/Tickets.vue')
-      },
-      {
-        path: '/orders',
-        name: 'orders',
-        component: () => import('pages/WorkOrders.vue')
-      },
+      // {
+      //   path: '/tickets',
+      //   name: 'tickets',
+      //   component: () => import('pages/Tickets.vue')
+      // },
+      // {
+      //   path: '/orders',
+      //   name: 'orders',
+      //   component: () => import('pages/WorkOrders.vue')
+      // },
     ],
   },
 

@@ -5,12 +5,8 @@ interface User {
   id?: string,
   full_name: string,
   email: string,
-  phone: string,
-  birthday: Date,
-  salary: number
-  position: string;
+  role: string;
   password?: string,
-  sex: string,
 }
 
 interface UserState {
@@ -42,9 +38,9 @@ export const useUsers = () => {
       })
   }
 
-  const setCurrentUser = (user: User): void => {
+  const setCurrentUser = (userId: string): void => {
     state.isCurrentLoading = true;
-    api.get(`/user/get/${user.id || ''}`)
+    api.get(`/user/get/${userId || ''}`)
       .then((data) => {
         state.currentUser = data.data as User
       })
@@ -60,12 +56,8 @@ export const useUsers = () => {
     state.currentUser = {
       full_name: '',
       email: '',
-      salary: 0,
-      phone: '',
-      birthday: new Date(),
-      position: '',
+      role: '',
       password: '',
-      sex: '',
     }
   }
 
